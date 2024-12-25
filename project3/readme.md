@@ -1,0 +1,2 @@
+In this mini project i build Leetmatric that show you the data of the user ,like how much qt he solved and how much easy , hard, medium qt be soloved. 
+Also I learned how to fetch data from an API call. In this project I learned lot of DOM conscept of js and working of API how data retrive from leetcode endpoint, how populate data on card. 
