@@ -85,6 +85,12 @@ h4{
     font-size: 1rem;
 }
 
+.state-card{
+    display: flex;
+    margin-top: 20px;
+    justify-content: space-around;
+}
+
 .card{
     background-color: rgb(230, 146, 44);
     width: 40%;

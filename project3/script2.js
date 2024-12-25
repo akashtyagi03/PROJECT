@@ -2,14 +2,14 @@ document.addEventListener("DOMContentLoaded", function(){
 
     const searchbutton = document.getElementById("search");
     const usernameinput = document.getElementById("user-input");
-    const statscontainer = document.querySelector(".stats-container"); 
+    const statsContainer = document.querySelector(".stats-container"); 
     const easyprogresscircle = document.querySelector(".easy-progress"); 
-    const meadiumprogresscircle = document.querySelector(".medium-progress"); 
+    const mediumprogresscircle = document.querySelector(".medium-progress"); 
     const hardprogresscircle = document.querySelector(".hard-progress"); 
-    const easylabel = document.   querySelector("easy-label"); 
-    const mediumlabel = document.querySelector("medium-label"); 
-    const hardlabel = document.querySelector("hard-label"); 
-    const cardstatscontainer = document.querySelector(".stats-cards");
+    const easylabel = document.getElementById("easy-label");
+    const mediumlabel = document.getElementById("medium-label");
+    const hardlabel = document.getElementById("hard-label");
+    const cardstatscontainer = document.querySelector(".state-card");
 
     // return true or false based on a regular-expresion
     function validateuser(username){
@@ -26,83 +26,72 @@ document.addEventListener("DOMContentLoaded", function(){
     }   
     
     async function fetchuserdetail(username){  
-
+        const url = "https://leetcode-stats-api.herokuapp.com/";
         try{
             searchbutton.textContent = "searching...";
             searchbutton.disabled = true;
-            //statsContainer.classList.add("hidden");
 
-            // const response = await fetch(url);
-            const proxyUrl = 'https://cors-anywhere.herokuapp.com/' 
-            const targetUrl = 'https://leetcode.com/graphql/';
-            
-            const myHeaders = new Headers();
-            myHeaders.append("content-type", "application/json");
-
-            const graphql = JSON.stringify({
-                query: "\n    query userSessionProgress($username: String!) {\n  allQuestionsCount {\n    difficulty\n    count\n  }\n  matchedUser(username: $username) {\n    submitStats {\n      acSubmissionNum {\n        difficulty\n        count\n        submissions\n      }\n      totalSubmissionNum {\n        difficulty\n        count\n        submissions\n      }\n    }\n  }\n}\n    ",
-                variables: { "username": `${username}` }
-            })
-            const requestOptions = {
-                method: "POST",
-                headers: myHeaders,
-                body: graphql,
-            };
-
-            const response = await fetch(proxyUrl+targetUrl, requestOptions);
-            if(!response.ok) {
-                throw new Error("uable to fetch the user details");
+            const response = await fetch(`${url}${username}`);
+            if (!response.ok) {
+                throw new Error("Unable to fetch user details");
             }
+
             const parsedData = await response.json();
-            console.log("logging data : ", parsedData);
-            displayuserdata(parseddata);    
+            console.log("Fetched data:", parsedData);
+
+            if (!parsedData || parsedData.status !== "success") {
+                console.error("Failed to retrieve valid user data.");
+                statsContainer.innerHTML = `<p>No valid data found</p>`;
+                return;
+            }
+
+            displayUserData(parsedData);   
         }
         catch(error) {
-            statscontainer.innerHTML = `<p>NO data</p>`
+            if (statsContainer) {
+                statsContainer.innerHTML = `<p>No data found</p>`;
+            } else {
+                console.error("Stats container is missing in the DOM.");
+            }
+            console.error(error.message);
         }
         finally {
-            searchbutton.textContent = "search"
+            searchbutton.textContent = "search";
             searchbutton.disabled = false;
         }
     }
 
-    function updateprogress(soloved, total, label, circle){
-        const progressdegree = (soloved/total)+100;
-        circle.style.setproperty("--progree-degree", `${progressdegree}%`);
-        label.textContent = `${soloved}/${total}`;
+    function updateprogress(solved, total, label, circle){
+        if (!label || !circle) {
+            console.error("Label or Circle is null:", { label, circle });
+            return;
+        }
+        const progressdegree = (solved / total) * 100;
+        circle.style.setProperty("--progress-degree", `${progressdegree}%`);
+        label.textContent = `${solved}/${total}`;
     }
 
-    function displayuserdata(data){
-        const totalques = parseddata.data.allquestioncount[0].count;
-        const totaleasyques = parseddata.data.allquestioncount[1].count;
-        const totalmediumques = parseddata.data.allquestioncount[2].count;
-        const totalhardques = parseddata.data.allquestioncount[3].count;
+    
+    function displayUserData(data) {
+        updateprogress(data.easySolved, data.totalEasy, easylabel, easyprogresscircle);
+        updateprogress(data.mediumSolved, data.totalMedium, mediumlabel, mediumprogresscircle);
+        updateprogress(data.hardSolved, data.totalHard, hardlabel, hardprogresscircle);
 
-        const solvedtotalques = parseddata.data.matcheduser.submitstats.acsubmission[0].count; 
-        const solvedtotaleasyques = parseddata.data.matcheduser.submitstats.acsubmission[1].count; 
-        const solvedtotalmediumques = parseddata.data.matcheduser.submitstats.acsubmission[2].count;  
-        const solvedtotalhardques = parseddata.data.matcheduser.submitstats.acsubmission[3].count;  
+        const cardsData = [
+            { label: "Total Problems Solved", value: data.totalSolved },
+            { label: "Total Submissions", value: data.totalSubmissions },
+        ];
 
-        updateprogress(solvedtotaleasyques, totaleasyques, easylabel, easyprogresscircle);
-        updateprogress(solvedtotaleasyques, totaleasyques, easylabel, easyprogresscircle);
-        updateprogress(solvedtotaleasyques, totaleasyques, easylabel, easyprogresscircle);
-
-        const cardsData =[
-            {label: "Overall Submissions", value:parsedData.data.matchedUser.submitStats.totalSubmissionNum[0].submissions },
-            {label: "Overall Easy Submissions", value:parsedData.data.matchedUser.submitStats.totalSubmissionNum[1].submissions },
-            {label: "Overall Medium Submissions", value:parsedData.data.matchedUser.submitStats.totalSubmissionNum[2].submissions },
-            {label: "Overall Hard Submissions", value:parsedData.data.matchedUser.submitStats.totalSubmissionNum[3].submissions },
-        ]
-        
-        console.log("card ka data: " , cardsData);
-
-        cardStatsContainer.innerHTML = cardsData.map(
-            data => 
-                    `<div class="card">
-                    <h4>${data.label}</h4>
-                    <p>${data.value}</p>
-                    </div>`
-        ).join("")
+        if (cardstatscontainer) {
+            cardstatscontainer.innerHTML = cardsData
+                .map(
+                    (card) =>
+                        `<div class="card"><h4>${card.label}</h4><p>${card.value}</p></div>`
+                )
+                .join("");
+        } else {
+            console.error("Card stats container is missing in the DOM.");
+        }
     }
 
     searchbutton.addEventListener('click', function(){
