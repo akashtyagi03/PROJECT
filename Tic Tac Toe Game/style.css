@@ -64,6 +64,7 @@ nav ul li {
     font-weight: bold;
     border-radius: 7px;
     background-color: rgb(131, 124, 131);
+    font-family: "Ubuntu", serif;
     color: black;
     height: 36px;
     width: 85px;
@@ -84,12 +85,26 @@ nav ul li {
 .bb-0{
     border-bottom: 0;
 }
-
+.line{
+    background-color: black;
+    height: 3px;
+    width: 0;
+    position: absolute;
+    background-color: #911d91;
+    transition: width 1s ease-in-out;
+}
 @media screen and (max-width: 800px){
     .gamecontanier{
         flex-wrap: wrap;
     }
     .gameinfo{
         margin-top: 30px;
+    }
+    .gameInfo h1{
+        font-size: 1.5rem;
+    }
+    .container { 
+        grid-template-rows: repeat(3, 20vw);
+        grid-template-columns: repeat(3, 20vw);
     }
 }
