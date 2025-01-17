@@ -1,0 +1,48 @@
+@media screen and (max-width: 1200px) {
+    .navigation {
+        flex-direction: column;
+        margin-bottom: 23px;
+    }
+
+    .nav {
+        display: flex;
+        /* flex-direction: column; */
+    }
+
+    .content-right {
+        display: none;
+    }
+
+    .container {
+        padding: 20px;
+    }
+
+    .article {
+        flex-direction: column;
+    }
+
+    .article-img {
+        text-align: center;
+    }
+
+    .article-img img {
+        height: 180px;
+    }
+
+    .search {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .input {
+        width: 23vw;
+        display: flex;
+    }
+
+    .srch {
+        width: 15vw;
+        height: 9vw;
+    }
+}

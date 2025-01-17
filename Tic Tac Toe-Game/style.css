@@ -1,0 +1,110 @@
+/* import url for font */
+@import url('https://fonts.googleapis.com/css2?family=Libre+Bodoni:ital,wght@0,400..700;1,400..700&family=Martel+Sans:wght@200;300;400;600;700;800;900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Varela+Round&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Libre+Bodoni:ital,wght@0,400..700;1,400..700&family=Martel+Sans:wght@200;300;400;600;700;800;900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&family=Varela+Round&display=swap');
+
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+nav {
+    background-color: rgb(46, 4, 46);
+    color: white;
+    height: 65px;
+}
+
+nav ul {
+    list-style-type: none;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 65px;
+    font-family: "Ubuntu", serif;
+}
+
+nav ul li {
+    cursor: pointer;
+    font-size: large;
+}
+.gamecontanier{
+    display: flex;
+    justify-content: center;    
+    margin-top: 50px;
+    height: 500px;
+    gap: 20px;
+    /* flex-wrap: wrap; */
+}
+.contanier{
+    display: grid;
+    grid-template-columns: repeat(3, 10vw);
+    grid-template-rows: repeat(3, 10vw);
+    margin-top: 12px;
+}
+.box{
+    font-size: 8vw;
+    border: 2px solid black;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Ubuntu", serif;
+}
+.box:hover{
+    background-color: rgb(239, 221, 255);
+}
+.gameinfo{
+    margin-top: 15px;
+    font-family: "Ubuntu", serif;
+}
+.info{
+    font-size: large;
+}
+#reset{
+    font-size: larger;
+    font-weight: bold;
+    border-radius: 7px;
+    background-color: rgb(131, 124, 131);
+    font-family: "Ubuntu", serif;
+    color: black;
+    height: 36px;
+    width: 85px;
+}
+.imgbox img{
+    width: 0;
+    transition: width 1s ease-in-out;
+}
+.br-0{
+    border-right: 0;
+}
+.bl-0{
+    border-left: 0;
+}
+.bt-0{
+    border-top: 0;
+}
+.bb-0{
+    border-bottom: 0;
+}
+.line{
+    background-color: black;
+    height: 3px;
+    width: 0;
+    position: absolute;
+    background-color: #911d91;
+    transition: width 1s ease-in-out;
+}
+@media screen and (max-width: 800px){
+    .gamecontanier{
+        flex-wrap: wrap;
+    }
+    .gameinfo{
+        margin-top: 30px;
+    }
+    .gameInfo h1{
+        font-size: 1.5rem;
+    }
+    .container { 
+        grid-template-rows: repeat(3, 20vw);
+        grid-template-columns: repeat(3, 20vw);
+    }
+}

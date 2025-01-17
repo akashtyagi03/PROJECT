@@ -1,0 +1,39 @@
+.contact-content{  
+    height: 100vh;
+    margin-top: 32px;
+    padding: 9px;
+    position: relative; 
+    overflow: hidden;
+  }
+  
+  .contact-content::after {
+    content: "";
+    background-image: url("../img/11.svg");
+    position: absolute;
+    top:0;
+    width: 100%;
+    height: inherit;
+    opacity: 0.15;
+    border-radius: 12px;
+    z-index: -1;
+  }
+ 
+.form-input {
+  padding: 0px 5px;
+  padding-top: 3px;
+  font-size: 16px;
+  border: 2px solid black;
+  border-radius: 4px;
+  margin: 0 13px;
+  font-family: "Ubuntu", serif;
+}
+
+.form-box input, textarea{
+  width: 52vw;
+  padding: 0px 6px;
+  margin: 7px 0;
+  font-size: 18px;
+  font-family: var(--font1);
+  border: 1px solid black;
+  border-radius: 5px;
+}
